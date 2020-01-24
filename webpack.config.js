@@ -1,35 +1,35 @@
-// webpack should be in the node_modules directory, install if not.
-// https://medium.com/@tkssharma/eslint-in-react-babel-webpack-9cb1c4e86f4e#.hlophrwed
-var webpack = require("webpack");
+const webpack = require("webpack");
+const path = require("path");
+
 module.exports = {
-  devtool: /*'eval',*/'cheap-module-source-map',
-  entry: './src/index.js',
+  devtool: "inline-source-map",
+  entry: "./src/index.js",
   output: {
-    path: './public',
-    filename: 'bundle.js'
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "public")
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loaders: ['babel-loader', 'eslint-loader']
+        use: ["babel-loader", "eslint-loader"]
       },
       {
         test: /\.css/,
-        loaders: ['style', 'css'],
-        include: __dirname + '/src'
+        use: ["style-loader", "css-loader"],
+        include: __dirname + "/src"
       }
     ]
   },
-  plugins:[
+  plugins: [
     new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
+      "process.env": {
+        NODE_ENV: JSON.stringify("production")
       }
     })
   ],
   resolve: {
-    extensions: ['', '.js', '.json']
+    extensions: [".js", ".json"]
   }
 };
